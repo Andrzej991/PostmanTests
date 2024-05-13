@@ -63,12 +63,13 @@
 					"script": {
 						"id": "45ef18b7-93d2-450a-b32e-4d1b852fe32b",
 						"exec": [
-							"var jsonDataId = pm.response.json()\r",
-							"pm.collectionVariables.set(\"userId_col\", jsonDataId.id)\r",
-							"pm.environment.unset(\"userId_env\");\r",
+							" //var jsonDataId = pm.response.json()  tworzę zmienną przechowującą mi odpowiedź o utworzeniu nowego użytkownika\r",
+							"\r",
+							"\r",
 							"\r",
 							"    pm.test(\"User created correct\", function () {\r",
 							"        var jsonData = pm.response.json(); // zmienna w funkcji, która przechowuje mi całą odpowiedź\r",
+							"        pm.collectionVariables.set(\"userId_col\", jsonData.id) // wyciągam z tej zmiennej pole \"id\" i przypisuję do zmiennej środowiskowej\r",
 							"        pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userId_col\"));\r",
 							"        pm.expect(jsonData).to.have.all.keys('id', 'name', 'email', 'gender', 'status');\r",
 							"    });\r",
