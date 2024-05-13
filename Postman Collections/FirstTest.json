@@ -63,17 +63,17 @@
 					"script": {
 						"id": "45ef18b7-93d2-450a-b32e-4d1b852fe32b",
 						"exec": [
-							"\r",
+							"var jsonDataId = pm.response.json()\r",
+							"pm.collectionVariables.set(\"userId_col\", jsonDataId.id)\r",
+							"pm.environment.unset(\"userId_env\");\r",
 							"\r",
 							"    pm.test(\"User created correct\", function () {\r",
-							"        var jsonData = pm.response.json();\r",
-							"        pm.expect(jsonData.id).to.not.eql(0);\r",
+							"        var jsonData = pm.response.json(); // zmienna w funkcji, która przechowuje mi całą odpowiedź\r",
+							"        pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"userId_col\"));\r",
 							"        pm.expect(jsonData).to.have.all.keys('id', 'name', 'email', 'gender', 'status');\r",
 							"    });\r",
 							"\r",
-							"var jsonDataId = pm.response.json()\r",
-							"pm.collectionVariables.set(\"userId_col\", jsonDataId.id)\r",
-							"pm.environment.unset(\"userId_env\");"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -84,11 +84,11 @@
 					"script": {
 						"id": "cb4a491b-3693-408c-ad6d-3b2dc31688b0",
 						"exec": [
-							"var randomName = Math.random().toString(36).substring(2);\r",
+							"var randomName = Math.random().toString(36).substring(2); // tworzę string z losowym ciągiem znaków jako zmienna w JS\r",
 							"var randomMail = randomName+\"@gmail.com\";\r",
 							"\r",
-							"pm.collectionVariables.set(\"randomName2\", randomName);\r",
-							"pm.collectionVariables.set(\"randomMail2\", randomMail);\r",
+							"pm.collectionVariables.set(\"randomName2\", randomName); // na podstawie zmiennej w JS tworzę zmienną w kolekcji \r",
+							"pm.collectionVariables.set(\"randomMail2\", randomMail); \r",
 							"\r",
 							""
 						],
