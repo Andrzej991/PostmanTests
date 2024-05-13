@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "f5c5bb21-720b-4e97-82a5-0f240e3872c3",
+		"name": "GoRest - chain test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET all the users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3b6c5110-587c-4492-9eca-6fd3d30b1407",
+						"exec": [
+							"pm.collectionVariables.set(\"colAddr\", \"https://gorest.co.in/public/v2/\")"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "201b23c9-eb3f-45fe-9ff8-94cb9cc66228",
+						"exec": [
+							"pm.test(\"Obtained users data successfully\", () =>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Headers correct\", () =>{\r",
+							"    pm.response.to.have.header(\"x-request-id\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Header value correct\", () =>{\r",
+							"pm.response.to.be.header(\"Transfer-Encoding\", \"chunked\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "be09892b-45ad-4ebc-8db1-74d935d874be",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{colAddr}}/users"
+			},
+			"response": []
+		},
+		{
+			"name": "POST new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45ef18b7-93d2-450a-b32e-4d1b852fe32b",
+						"exec": [
+							"\r",
+							"\r",
+							"    pm.test(\"User created correct\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(jsonData.id).to.not.eql(0);\r",
+							"        pm.expect(jsonData).to.have.all.keys('id', 'name', 'email', 'gender', 'status');\r",
+							"    });\r",
+							"\r",
+							"var jsonDataId = pm.response.json()\r",
+							"pm.collectionVariables.set(\"userId_col\", jsonDataId.id)\r",
+							"pm.environment.unset(\"userId_env\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb4a491b-3693-408c-ad6d-3b2dc31688b0",
+						"exec": [
+							"var randomName = Math.random().toString(36).substring(2);\r",
+							"var randomMail = randomName+\"@gmail.com\";\r",
+							"\r",
+							"pm.collectionVariables.set(\"randomName2\", randomName);\r",
+							"pm.collectionVariables.set(\"randomMail2\", randomMail);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "79f18d11-814b-4933-958c-b30eebca09d9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{randomName2}}\",\r\n     \"gender\":\"male\", \r\n     \"email\":\"{{randomMail2}}\",\r\n      \"status\":\"active\"\r\n      }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{colAddr}}users"
+			},
+			"response": []
+		},
+		{
+			"name": "User update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45ef18b7-93d2-450a-b32e-4d1b852fe32b",
+						"exec": [
+							"\r",
+							"var jsonDataAfterUpd = pm.response.json();\r",
+							"    pm.test(\"User updated correct\", function () {\r",
+							"        pm.expect(jsonDataAfterUpd.id).to.not.eql(0);\r",
+							"        pm.expect(jsonDataAfterUpd).to.have.all.keys('id', 'name', 'email', 'gender', 'status');\r",
+							"    });\r",
+							"\r",
+							"var randomNameAfterPosting = pm.response.json();\r",
+							"pm.environment.set(\"randomNameAfterPosting\", jsonDataAfterUpd.name);\r",
+							"console.log(jsonDataAfterUpd.name);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb4a491b-3693-408c-ad6d-3b2dc31688b0",
+						"exec": [
+							"var randomName2 = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.set(\"randomNameUpd\", randomName2);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "02b20484-967d-4f4f-8975-e304e3d52c59",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n     \"name\": \"{{randomNameUpd}}\",\r\n     \"gender\":\"female\", \r\n      \"status\":\"inactive\"\r\n      }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{colAddr}}users/{{userId_col}}"
+			},
+			"response": []
+		},
+		{
+			"name": "GET our last user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3b6c5110-587c-4492-9eca-6fd3d30b1407",
+						"exec": [
+							"pm.collectionVariables.set(\"colAddr\", \"https://gorest.co.in/public/v2/\")"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "201b23c9-eb3f-45fe-9ff8-94cb9cc66228",
+						"exec": [
+							"pm.test(\"Obtained users data successfully\", () =>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Headers correct\", () =>{\r",
+							"    pm.response.to.have.header(\"x-request-id\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Header value correct\", () =>{\r",
+							"pm.response.to.be.header(\"Transfer-Encoding\", \"chunked\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Name changed correctly\", () =>{\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData.name).to.not.eql(\"randomName2\");\r",
+							"    \r",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"randomNameAfterPosting\"));\r",
+							"  \r",
+							"   \r",
+							"    });\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "00d85668-9523-4b27-b1c6-11d367f491a7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{colAddr}}/users/{{userId_col}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete dummy user, clear area",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3b6c5110-587c-4492-9eca-6fd3d30b1407",
+						"exec": [
+							"pm.collectionVariables.set(\"colAddr\", \"https://gorest.co.in/public/v2/\")"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "201b23c9-eb3f-45fe-9ff8-94cb9cc66228",
+						"exec": [
+							"pm.test(\"User deleted successfully\", () =>{\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							"\r",
+							"pm.collectionVariables.unset(\"randomName2\");\r",
+							"pm.collectionVariables.unset(\"randomName3\");\r",
+							"pm.collectionVariables.unset(\"randomMail2\");\r",
+							"pm.collectionVariables.unset(\"userId_col\");\r",
+							"\r",
+							"pm.test(\"Variables deleted\", () => {\r",
+							"\r",
+							"pm.environment.has(\"randomMail2\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "e92eecb6-9aa1-4547-9617-a9313782fc0c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{colAddr}}/users/{{userId_col}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Ensure user is deleted",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3b6c5110-587c-4492-9eca-6fd3d30b1407",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "201b23c9-eb3f-45fe-9ff8-94cb9cc66228",
+						"exec": [
+							"pm.test(\"User deleted successfully\", () =>{\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"pm.collectionVariables.unset(\"userId_col\");\r",
+							"\r",
+							"pm.test(\"Variables deleted\", () => {\r",
+							"\r",
+							"pm.expect(pm.collectionVariables.has(\"randomMail2\")).to.equal(false);\r",
+							"\r",
+							"\r",
+							"});\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"randomName2\"));\r",
+							"console.log(pm.collectionVariables.get(\"randomMail2\"));\r",
+							"console.log(pm.collectionVariables.get(\"randomName3\"));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "5b65713b-c511-40a4-a216-0eb7e3ad4941",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{colAddr}}/users/{{userId_col}}"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "a50a5fe67fcbddd8d3c53d0e7163f2fce860d420deb7ef49e4c250306f353ccb"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3fcd84f2-3f3a-4efb-9531-63df89dbc394",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6f710e1a-3984-4f60-b1b4-57cc85ba19f0",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "colAddr",
+			"value": ""
+		},
+		{
+			"key": "userId_env",
+			"value": ""
+		},
+		{
+			"key": "randomNameUpd",
+			"value": ""
+		},
+		{
+			"key": "randomNameAfterPosting",
+			"value": ""
+		}
+	]
+}
