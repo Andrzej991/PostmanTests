@@ -331,6 +331,7 @@
 							"console.log(pm.collectionVariables.get(\"randomName2\"));\r",
 							"console.log(pm.collectionVariables.get(\"randomMail2\"));\r",
 							"console.log(pm.collectionVariables.get(\"randomName3\"));\r",
+							"console.log(pm.environment.get(\"testVarFromMock\"))\r",
 							"\r",
 							""
 						],
