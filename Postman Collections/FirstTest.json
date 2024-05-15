@@ -15,9 +15,9 @@
 						"exec": [
 							"var jsonDataNames = pm.response.json();\r",
 							"pm.collectionVariables.set(\"mockName\", jsonDataNames.data.firstName);\r",
-							"pm.collectionVariables.set(\"mockSurname\", jsonDataNames.data.lastName);\r",
+							"\r",
 							"console.log(pm.collectionVariables.get(\"mockName\"));\r",
-							"console.log(pm.collectionVariables.get(\"mockSurname\"));"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
