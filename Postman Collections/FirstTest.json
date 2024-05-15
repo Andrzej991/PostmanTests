@@ -6,6 +6,46 @@
 	},
 	"item": [
 		{
+			"name": "Create mock user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1b967ea-df0f-4bb9-81f4-ea97ee9aaf83",
+						"exec": [
+							"var jsonDataNames = pm.response.json();\r",
+							"pm.collectionVariables.set(\"mockName\", jsonDataNames.data.firstName);\r",
+							"pm.collectionVariables.set(\"mockSurname\", jsonDataNames.data.lastName);\r",
+							"console.log(pm.collectionVariables.get(\"mockName\"));\r",
+							"console.log(pm.collectionVariables.get(\"mockSurname\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "192e2870-a43a-48ce-a4fd-4d9924f77b27",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"createdAt\": \"{{$isoTimestamp}}\",\n    \"address\": {\n        \"line1\": \"{{$randomStreetAddress}}\",\n        \"line2\": \"{{$randomCity}}\",\n        \"country\": \"{{$randomCountryCode}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/post",
+				"description": "This request shows an example of generating mock user data in the request body. You can use this to populate some users for testing your API or application, or to ensure that your API accepts a range of inputs within certain parameters."
+			},
+			"response": []
+		},
+		{
 			"name": "GET all the users",
 			"event": [
 				{
@@ -362,7 +402,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "3fcd84f2-3f3a-4efb-9531-63df89dbc394",
+				"id": "3111923b-0690-48b9-9e99-1caf2f9340e4",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
@@ -373,7 +413,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6f710e1a-3984-4f60-b1b4-57cc85ba19f0",
+				"id": "6723eb27-ba90-42ee-81fa-b5a3fcd1d66d",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
@@ -397,6 +437,19 @@
 		},
 		{
 			"key": "randomNameAfterPosting",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://postman-echo.com",
+			"type": "string"
+		},
+		{
+			"key": "mockName",
+			"value": ""
+		},
+		{
+			"key": "mockSurname",
 			"value": ""
 		}
 	]
