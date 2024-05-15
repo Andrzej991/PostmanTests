@@ -189,10 +189,7 @@
 					"script": {
 						"id": "cb4a491b-3693-408c-ad6d-3b2dc31688b0",
 						"exec": [
-							"var randomName2 = Math.random().toString(36).substring(2);\r",
 							"\r",
-							"\r",
-							"pm.collectionVariables.set(\"randomNameUpd\", randomName2);\r",
 							""
 						],
 						"type": "text/javascript",
@@ -209,7 +206,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \r\n     \"name\": \"{{randomNameUpd}}\",\r\n     \"gender\":\"female\", \r\n      \"status\":\"inactive\"\r\n      }",
+					"raw": "{\r\n    \r\n     \"name\": \"{{mockName}}\",\r\n     \"gender\":\"female\", \r\n      \"status\":\"inactive\"\r\n      }",
 					"options": {
 						"raw": {
 							"language": "json"
