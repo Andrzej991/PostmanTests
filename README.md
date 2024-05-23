@@ -9,3 +9,5 @@ It is a starting point, using public API to check following aspects:
 5. Validate if the data is changed
 6. Delete user and all remnants like variables
 7. Ensure everything is deleted
+
+https://documenter.getpostman.com/view/33144372/2sA3QpDDs1#auth-info-f5c5bb21-720b-4e97-82a5-0f240e3872c3 
